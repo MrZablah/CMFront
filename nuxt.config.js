@@ -45,6 +45,7 @@ module.exports = {
     */
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
+        baseURL: process.env.BASE_URL || 'http://34.212.183.240',
     },
 
     /*

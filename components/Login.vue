@@ -2,10 +2,9 @@
     <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
         <b-form-group label="Username:" label-for="username">
             <b-form-input id="username"
-                        type="text"
-                        v-model="form.user"
+                        type="email"
+                        v-model="form.username"
                         required
-                        :state="valEmail"
                         placeholder="Enter username">
             </b-form-input>
             <b-form-invalid-feedback id="username">
@@ -16,8 +15,7 @@
         <b-form-group label="Password:" label-for="password">
             <b-form-input id="password"
                         type="password"
-                        v-model="form.pass"
-                        :state="valUser"
+                        v-model="form.password"
                         required
                         placeholder="Enter password">
             </b-form-input>
@@ -45,11 +43,9 @@ export default {
     data() {
         return {
             form: {
-                user: '',
-                pass: ''
-            },
-            valEmail: null,
-            valUser: null
+                username: '',
+                password: ''
+            }
         }
     },
     methods: {
@@ -57,9 +53,8 @@ export default {
             console.log(JSON.stringify(this.form));
         },
         onReset (evt) {
-            /* Reset our form values */
-            this.form.user = '';
-            this.form.pass = '';
+            this.form.username = '';
+            this.form.password = '';
         }
     }
 }
