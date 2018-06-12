@@ -5,7 +5,7 @@
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav v-if="isLogin">
                 <b-nav-item to="/Admin/Files">Files</b-nav-item>
-                <b-nav-item href="#">Add</b-nav-item>
+                <b-nav-item to="/Admin/Add">Add</b-nav-item>
             </b-navbar-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">

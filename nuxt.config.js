@@ -24,7 +24,9 @@ module.exports = {
     /*
     ** Global CSS
     */
-    css: [],
+    css: [
+        '~assets/css/transition.css'
+    ],
 
     /*
     ** Plugins to load before mounting the App
@@ -65,6 +67,18 @@ module.exports = {
                     exclude: /(node_modules)/
                 });
             }
+        }
+    },
+    transition: {
+        name: 'fade',
+        mode: 'out-in'
+    },
+    router:{
+        extendRoutes(routes, resolve){
+            routes.push({
+                path: '*',
+                component: resolve(__dirname, 'pages/index.vue')
+            })
         }
     }
 };

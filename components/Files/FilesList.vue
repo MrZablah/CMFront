@@ -5,7 +5,8 @@
             :name="file.name"
             :thumbnail="file.thumbnail"
             :description="file.description != null ? file.description : ''"
-            :tags="file.tags"/>
+            :tags="file.tags"
+            :isAdmin="isAdmin"/>
     </b-card-group>
 </template>
 
@@ -17,6 +18,9 @@ export default {
         Files: {
             type: Array,
             required: true
+        },
+        isAdmin: {
+            type: Boolean
         }
     },
     components:{

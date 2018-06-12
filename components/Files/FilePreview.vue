@@ -41,7 +41,7 @@ export default {
     },
     computed:{
         postLink(){
-            return this.isAdmin ? '/' : '/posts/' + this.id;
+            return this.isAdmin ? '/Admin/Files/' + this.id : '/';
         }
     }
 }
