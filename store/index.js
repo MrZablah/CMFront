@@ -16,20 +16,12 @@ const createStore = () => {
 			}
 		},
 		actions: {
-			nuxtServerInit(vuexContext, context) {
-				return this.$axios
-					.$get('/file')
-					.then(data => {
-						// console.log(data);
-						vuexContext.commit('setFiles', data);
-					})
-					.catch(e => context.error(e));
-			}
+			setFiles(vuexContext, files) {
+				vuexContext.commit('setFiles', files);
+			},
 		},
 		getters: {
-			loadedFiles(state) {
-				return state.loadedFiles;
-			}
+			loadedFiles: state => state.loadedFiles
 		}
 	});
 };

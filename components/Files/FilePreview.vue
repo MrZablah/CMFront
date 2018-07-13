@@ -1,13 +1,14 @@
 <template>
     <nuxt-link :to="postLink" tag="span" class="file-card">
-        <b-card :id="id"
+        <b-card class="custom_card"
+            :id="id"
             :title="name"
             :img-src="thumbnail"
             img-fluid
             img-alt="image"
             img-top>
-            <p class="card-text">{{description}}</p>
-            <b-badge variant="secondary" v-for="tag in tags" :key="tag.id">{{tag.name}}</b-badge>
+            <!-- <p class="card-text">{{description}}</p> -->
+            <b-badge class="custom_badge" variant="secondary" v-for="tag in tags" :key="tag.id">{{tag.name}}</b-badge>
         </b-card>
     </nuxt-link>
 </template>
@@ -31,10 +32,10 @@ export default {
             type: String,
             required: true
         },
-        description: {
-            type: String,
-            required: true
-        },
+        // description: {
+        //     type: String,
+        //     required: true
+        // },
         tags: {
             type: Array
         }
@@ -47,10 +48,22 @@ export default {
 }
 </script>
 
-<style scoped>
-.file-card{
-    cursor: pointer;
-}
+<style lang="scss" scoped>
+    .file-card{
+        cursor: pointer;
+    }
+    .custom{
+        &_badge{
+            margin: 1px;
+            background-color: orange;
+        }
+        &_card{
+           margin-bottom: 1rem;
+            @include mediaQ(576px){
+                max-width: 250px;
+            }
+        }
+    }
 </style>
 
 

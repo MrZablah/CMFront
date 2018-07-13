@@ -1,0 +1,16 @@
+// Min width media query
+@mixin mediaQ($minWidth){
+  @media (min-width: #{$minWidth}){
+    @content;
+  }
+}
+// resolution mixin
+@mixin retina($pixelRatio) {
+  @media
+    only screen and (-webkit-min-device-pixel-ratio: $pixelRatio),
+    only screen and (min--moz-device-pixel-ratio: $pixelRatio),
+    only screen and (-o-min-device-pixel-ratio: $pixelRatio/1),
+    only screen and (min-device-pixel-ratio: $pixelRatio){
+    @content;
+  }
+}

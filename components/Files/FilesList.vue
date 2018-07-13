@@ -1,12 +1,13 @@
 <template>
-    <b-card-group columns>
-        <FilesPreview v-for="file in Files" :key="file.id"
+    <b-card-group deck>
+        <FilesPreview 
+            v-for="file in Files" :key="file.id"
             :id="file.id"
             :name="file.name"
-            :thumbnail="file.thumbnail"
-            :description="file.description != null ? file.description : ''"
+            :thumbnail="file.thumbUrl"
             :tags="file.tags"
             :isAdmin="isAdmin"/>
+            <!-- :description="file.description != null ? file.description : ''" -->
     </b-card-group>
 </template>
 

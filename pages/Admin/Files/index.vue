@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <FilesList :Files="loadedFiles" :isAdmin="isAdmin"/>    
+        <FilesList :Files="loadedFiles" :isAdmin="isAdmin"/> 
     </b-container>
 </template>
 
