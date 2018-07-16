@@ -97,11 +97,7 @@ export default {
             this.currentPage = 1
         },
         rowClick(record, index){
-            var id = record.id;
-            console.log(id);
-            var goTo = this.isAdmin ? '/Admin/Files/' + id : '/';
-            console.log(goTo);
-            this.$router.push(goTo);
+            this.$router.push(this.isAdmin ? '/Admin/Files/' + record.id : '/');
         }
     },
     
