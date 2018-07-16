@@ -18,7 +18,7 @@ export default {
     props: {
         isAdmin: {
             type: Boolean,
-            default: true
+            default: false
         },
         id: {
             type: Number,

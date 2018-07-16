@@ -1,6 +1,6 @@
 <template>
     <b-card-group deck>
-        <FilesPreview 
+        <FileCard 
             v-for="file in Files" :key="file.id"
             :id="file.id"
             :name="file.name"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import FilesPreview from "~/components/Files/FilePreview.vue";
+import FileCard from "~/components/Files/FileCard.vue";
 
 export default {
     props:{
@@ -25,7 +25,7 @@ export default {
         }
     },
     components:{
-        FilesPreview
+        FileCard
     }
 };
 </script>

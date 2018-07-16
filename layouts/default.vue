@@ -1,7 +1,7 @@
 <template>
     <div>
 		<Navbar/>
-        <nuxt class="mt-3"/>
+        <nuxt/>
     </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
 	created(){
     	this.$Api.getFiles(this.$axios).then((res) => {
 			this.$store.dispatch('setFiles', res);
-		})
+		});
   	}
 }
 </script>

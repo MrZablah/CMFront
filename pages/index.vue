@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container class="mt-3">
         <b-jumbotron header="Bootstrap Vue"
             lead="Bootstrap 4 Components for Vue.js 2">
           <p>For more information visit our website</p>
