@@ -33,7 +33,8 @@ module.exports = {
     */
     plugins: [
         '@/plugins/Api.js',
-        '@/plugins/fontawesom.js'
+        '@/plugins/Fontawesom.js',
+        '@/plugins/Vuelidate.js'
     ],
 
     /*
