@@ -1,4 +1,3 @@
-// ~/plugins/axios
 import Vue from 'vue';
 
 Vue.prototype.$Api = {
@@ -14,7 +13,7 @@ Vue.prototype.$Api = {
                 if (progressEvent.lengthComputable) {
                     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
                     console.log("onUploadProgress", totalLength);
-                    var progres = Math.round( (progressEvent.loaded * 100) / totalLength );
+                    var progres = Math.round( (progressEvent.loaded * 100) / totalLength ) - 5;
                     console.log(progres);
                     progresCB(progres);
                 }

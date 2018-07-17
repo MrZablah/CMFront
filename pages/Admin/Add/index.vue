@@ -15,7 +15,7 @@
                     :state="!$v.file.$error ? null : false"
                     v-model="$v.file.$model"
                     placeholder="Choose a file..." 
-                    accept=".jpeg, .jpg, .png, .gif, .mp3, mp4"
+                    accept=".jpeg, .jpg, .png, .gif, .mp3, .mp4"
                     required>
                 </b-form-file>
             </b-form-group>
@@ -82,11 +82,19 @@ export default {
     methods: {
         onSubmit (evt) {
             evt.preventDefault();
+            this.progressBar = 0;
             this.showBar = true;
             this.$Api.uploadFile(this.$axios, this.file, this.fileName, this.updateProgressBarValue).then((res) => {
-                console.log('Succes!!', res);
+                this.progressBar = 100;
+                this.showBar = false;
+                this.$store.dispatch('addNewFile', res);
+                this.$snotify.success('File Upload and save successfully.', 'Succes!');
+                // console.log('Succes!!', res);
             }).catch((err) => {
-                console.log('We got an error', err.response);
+                this.progressBar = 100;
+                this.showBar = false;
+                this.$snotify.error(err.response.data, 'Error!');
+                // console.log('We got an error', err.response);
             });
         },
         onReset (evt) {

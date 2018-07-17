@@ -2,6 +2,7 @@
     <div>
 		<Navbar/>
         <nuxt/>
+		<vue-snotify/>
     </div>
 </template>
 

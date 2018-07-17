@@ -10,14 +10,17 @@ const createStore = () => {
 			setFiles(state, files) {
 				state.loadedFiles = files;
 			},
-			addFiles(state, files) {
-				state.loadedFiles.push(files);
+			addFiles(state, file) {
+				state.loadedFiles.push(file);
 			}
 		},
 		actions: {
 			setFiles(vuexContext, files) {
 				vuexContext.commit('setFiles', files);
 			},
+			addNewFile(vuexContext, file){
+				vuexContext.commit('addFiles', file);
+			}
 		},
 		getters: {
 			loadedFiles: state => state.loadedFiles

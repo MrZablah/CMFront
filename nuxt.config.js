@@ -34,7 +34,8 @@ module.exports = {
     plugins: [
         '@/plugins/Api.js',
         '@/plugins/Fontawesom.js',
-        '@/plugins/Vuelidate.js'
+        '@/plugins/Vuelidate.js',
+        '@/plugins/VueNotification.js'
     ],
 
     /*
