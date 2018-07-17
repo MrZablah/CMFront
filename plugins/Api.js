@@ -12,9 +12,9 @@ Vue.prototype.$Api = {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-                    console.log("onUploadProgress", totalLength);
+                    // console.log("onUploadProgress", totalLength);
                     var progres = Math.round( (progressEvent.loaded * 100) / totalLength ) - 5;
-                    console.log(progres);
+                    // console.log(progres);
                     progresCB(progres);
                 }
             }

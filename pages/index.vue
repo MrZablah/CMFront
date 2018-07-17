@@ -1,9 +1,8 @@
 <template>
     <b-container class="mt-3">
-        <b-jumbotron header="Bootstrap Vue"
-            lead="Bootstrap 4 Components for Vue.js 2">
-          <p>For more information visit our website</p>
-          <b-btn variant="primary" href="https://bootstrap-vue.js.org/">More Info</b-btn>
+        <b-jumbotron header="Content Manager"
+            lead="Content Manager for Tecnologia">
+          <p>This might help keeping track of content</p>
         </b-jumbotron>
       </b-container>
 </template>

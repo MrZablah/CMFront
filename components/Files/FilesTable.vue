@@ -34,6 +34,9 @@
                 <template slot="companies" slot-scope="data">
                     {{data.item.companies.map(e => e.name).join(", ")}}
                 </template>
+                <template slot="clubs" slot-scope="data">
+                    {{data.item.clubs.map(e => e.name).join(", ")}}
+                </template>
             </b-table>
         </b-row>
         <b-row align-h="center">
@@ -57,7 +60,7 @@ export default {
     data () {
         return {
             currentPage: 1,
-            perPage: 20,
+            perPage: 10,
             totalRows: this.fileRows,
             pageOptions: [ 10, 20, 50, 100, ],
             filter: null,
@@ -74,7 +77,12 @@ export default {
                 },
                 {
                     key: 'companies',
-                    label: 'Companie',
+                    label: 'Companies',
+                    sortable: true
+                },
+                {
+                    key: 'clubs',
+                    label: 'Clubs',
                     sortable: true
                 },
                 {
