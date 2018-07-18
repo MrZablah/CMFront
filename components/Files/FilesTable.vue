@@ -55,6 +55,7 @@
 </template>
 
 <script>
+const downloadjs = require("downloadjs");
 export default {
     props:{
         Files: {
@@ -128,13 +129,13 @@ export default {
         },
         downloadFile(item){
             this.$snotify.async('Downloading File...', () => new Promise((resolve, reject) => {
-                this.$Api.downloadFile(this.$axios, item.id).then(response => {
-                    var newName = this.$Utils.newName(item.pathName, item.name);
-                    console.log(newName);
-                    this.$Utils.saveByteArray([response.data], newName);
+                this.$Api.downloadFile(this.$axios, item.id).then(res => {
+                    let newName = this.$Utils.newName(item.pathName, item.name);
+                    let type = res.headers['content-type'].toLowerCase();
+                    downloadjs(res.data, newName, type);
                     return resolve({
                         title: 'SUCCESS!',
-                        body: 'We got an example success!',
+                        body: 'File downloaded!',
                         config: {
                         closeOnClick: true
                         }

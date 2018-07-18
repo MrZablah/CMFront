@@ -3,7 +3,7 @@ import Vue from 'vue';
 if (process.browser) {
     window.onNuxtReady(() => {
         Vue.prototype.$Utils = {
-            saveByteArray: (function () {
+            saveBinary: (function () {
                 var a = document.createElement("a");
                 document.body.appendChild(a);
                 a.style = "display: none";
