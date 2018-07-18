@@ -1,15 +1,19 @@
 <template>
     <b-container>
-        <h1>{{id}}</h1>
+        <EditFile :file="file"/>
     </b-container>
 </template>
 
 <script>
-    export default {
-        data(){
-            return {
-                id: this.$route.params.id
-            }
+import EditFile from "~/components/Files/EditFile";
+export default {
+    data(){
+        return {
+            file: this.$store.getters.getFileById(this.$route.params.id)
         }
+    },
+    components: {
+        EditFile
     }
+}
 </script>

@@ -23,7 +23,11 @@ const createStore = () => {
 			}
 		},
 		getters: {
-			loadedFiles: state => state.loadedFiles
+			loadedFiles: state => state.loadedFiles,
+			getFileById: (state) => (id) => {
+				var file = state.loadedFiles.find(f => f.id == id);
+				return file ? file : 'File not found';
+			}
 		}
 	});
 };

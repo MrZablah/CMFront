@@ -25,23 +25,32 @@
                 :filter="filter"
                 @filtered="onFiltered"
                 :current-page="currentPage"
-                @row-clicked="rowClick"
-                tbody-tr-class="custom_row"
                 sort-by="name">
-                <template slot="tags" slot-scope="data">
-                    {{data.item.tags.map(e => e.name).join(", ")}}
+                <template slot="tags" slot-scope="row">
+                    {{row.item.tags.map(e => e.name).join(", ")}}
                 </template>
-                <template slot="companies" slot-scope="data">
-                    {{data.item.companies.map(e => e.name).join(", ")}}
+                <template slot="companies" slot-scope="row">
+                    {{row.item.companies.map(e => e.name).join(", ")}}
                 </template>
-                <template slot="clubs" slot-scope="data">
-                    {{data.item.clubs.map(e => e.name).join(", ")}}
+                <template slot="clubs" slot-scope="row">
+                    {{row.item.clubs.map(e => e.name).join(", ")}}
+                </template>
+                <template slot="actions" slot-scope="row" class="justify-content-center">
+                    <b-button size="sm" variant="primary" @click="openModal(row.item, $event.target)">Preview</b-button>
+                    <b-button size="sm" variant="danger" @click="editImg(row.item.id)" class="btn-space">Edit</b-button>
+                    <b-button size="sm" variant="success" @click="downloadFile(row.item)">Dowload</b-button>
                 </template>
             </b-table>
         </b-row>
         <b-row align-h="center">
             <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"/>
         </b-row>
+        <!-- Info modal -->
+        <b-modal id="modal" @hide="resetModal" :title="modal.title" ok-only>
+            <pre>
+                <b-img :src="modal.img" fluid alt="Responsive image" />
+            </pre>
+        </b-modal>
     </b-container>
 </template>
 
@@ -64,6 +73,7 @@ export default {
             totalRows: this.fileRows,
             pageOptions: [ 10, 20, 50, 100, ],
             filter: null,
+            modal: { title: '', img: null },
             fields: [
                 {
                     key: 'name',
@@ -86,8 +96,8 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'description',
-                    label: 'Description',
+                    key: 'actions',
+                    label: 'Actions',
                     sortable: false
                 }
             ]
@@ -104,16 +114,54 @@ export default {
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
-        rowClick(record, index){
-            this.$router.push(this.isAdmin ? '/Admin/Files/' + record.id : '/');
+        resetModal() {
+            this.modal.title = '';
+            this.modal.img = null;
+        },
+        openModal(item, button) {
+            this.modal.title = `Name: ${item.name}`
+            this.modal.img = item.thumbUrl
+            this.$root.$emit('bv::show::modal', 'modal', button)
+        },
+        editImg(id){
+            this.$router.push(this.isAdmin ? '/Admin/Files/' + id : '/');
+        },
+        downloadFile(item){
+            this.$snotify.async('Downloading File...', () => new Promise((resolve, reject) => {
+                this.$Api.downloadFile(this.$axios, item.id).then(response => {
+                    var newName = this.$Utils.newName(item.pathName, item.name);
+                    console.log(newName);
+                    this.$Utils.saveByteArray([response.data], newName);
+                    return resolve({
+                        title: 'SUCCESS!',
+                        body: 'We got an example success!',
+                        config: {
+                        closeOnClick: true
+                        }
+                    });
+                }).catch((err) => {
+                    reject({
+                        title: 'ERROR!',
+                        body: "Can't download file.",
+                        config: {
+                        closeOnClick: true
+                        }
+                    })
+                });
+            }));
         }
-    },
-    
+    }, 
 }
 </script>
 
 <style lang="scss">
 .custom_row{
     cursor: pointer;
+}
+.btn-space{
+    margin: 4px 0 4px 0;
+    @include mediaQ(576px){
+        margin: 0 4px 0 4px;
+    }
 }
 </style>

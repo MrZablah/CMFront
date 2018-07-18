@@ -1,7 +1,7 @@
 const pkg = require('./package');
 
 module.exports = {
-    mode: 'universal',
+    mode: 'SPA',
 
     /*
     ** Headers of the page
@@ -35,7 +35,8 @@ module.exports = {
         '@/plugins/Api.js',
         '@/plugins/Fontawesom.js',
         '@/plugins/Vuelidate.js',
-        '@/plugins/VueNotification.js'
+        '@/plugins/VueNotification.js',
+        '@/plugins/Utils.js'
     ],
 
     /*
