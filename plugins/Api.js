@@ -21,6 +21,6 @@ Vue.prototype.$Api = {
         });
     },
     downloadFile: (axios, id) => {
-        return axios.get(`/file/${id}/download`, { responseType:"arraybuffer" });
+        return axios.$get(`/file/${id}/download`).then((res) => axios.get(res, { responseType:"arraybuffer" }));
     }
 }
