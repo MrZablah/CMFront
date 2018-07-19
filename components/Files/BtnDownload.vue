@@ -35,7 +35,7 @@ export default {
                         title: 'SUCCESS!',
                         body: 'File downloaded!',
                         config: {
-                        closeOnClick: true
+                            closeOnClick: true
                         }
                     });
                 }).catch((err) => {
@@ -43,7 +43,7 @@ export default {
                         title: 'ERROR!',
                         body: "Can't download file.",
                         config: {
-                        closeOnClick: true
+                            closeOnClick: true
                         }
                     })
                 });

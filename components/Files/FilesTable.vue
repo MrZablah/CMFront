@@ -82,6 +82,11 @@ export default {
                     sortable: true
                 },
                 {
+                    key: 'extension',
+                    label: 'Extension',
+                    sortable: true
+                },
+                {
                     key: 'tags',
                     label: 'Tags',
                     sortable: true
