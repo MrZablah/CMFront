@@ -38,7 +38,7 @@
                 <template slot="actions" slot-scope="row" class="justify-content-center">
                     <b-button size="sm" variant="primary" @click="openModal(row.item, $event.target)">Preview</b-button>
                     <b-button size="sm" variant="danger" @click="editImg(row.item.id)" class="btn-space">Edit</b-button>
-                    <b-button size="sm" variant="success" @click="downloadFile(row.item)">Dowload</b-button>
+                    <btnDownload :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
                 </template>
             </b-table>
         </b-row>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-const downloadjs = require("downloadjs");
+import btnDownload from "./BtnDownload";
 export default {
     props:{
         Files: {
@@ -126,32 +126,11 @@ export default {
         },
         editImg(id){
             this.$router.push(this.isAdmin ? '/Admin/Files/' + id : '/');
-        },
-        downloadFile(item){
-            this.$snotify.async('Downloading File...', () => new Promise((resolve, reject) => {
-                this.$Api.downloadFile(this.$axios, item.id).then(res => {
-                    let newName = this.$Utils.newName(item.pathName, item.name);
-                    let type = res.headers['content-type'].toLowerCase();
-                    downloadjs(res.data, newName, type);
-                    return resolve({
-                        title: 'SUCCESS!',
-                        body: 'File downloaded!',
-                        config: {
-                        closeOnClick: true
-                        }
-                    });
-                }).catch((err) => {
-                    reject({
-                        title: 'ERROR!',
-                        body: "Can't download file.",
-                        config: {
-                        closeOnClick: true
-                        }
-                    })
-                });
-            }));
         }
-    }, 
+    },
+    components: {
+        btnDownload
+    }
 }
 </script>
 
