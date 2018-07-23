@@ -15,13 +15,12 @@
                     <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
                 </b-nav-form> -->
 
-                <b-nav-item-dropdown id="drop" text="Lang" right v-if="isLogin">
-                    <b-dropdown-item href="#">EN</b-dropdown-item>
-                    <b-dropdown-item href="#">ES</b-dropdown-item>
-                </b-nav-item-dropdown>
+                <!-- <b-nav-item-dropdown id="drop" text="Lang" right v-if="isLogin">
+                    <b-dropdown-item href="#" :class="{'active':lng=='en'}">EN</b-dropdown-item>
+                    <b-dropdown-item href="#" :class="{'active':lng=='es'}">ES</b-dropdown-item>
+                </b-nav-item-dropdown> -->
 
                 <b-nav-item-dropdown right v-if="isLogin">
-                    <!-- Using button-content slot -->
                     <template slot="button-content">
                         <em>User</em>
                     </template>
@@ -43,7 +42,8 @@ import Login from '~/components/Login';
 export default {
     data() {
         return {
-            isLogin: true
+            isLogin: true,
+            lng: 'en'
         }
     },
     methods:{
