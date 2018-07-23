@@ -2,7 +2,7 @@
     <b-container fluid>
         <b-row align-h="end">
             <b-button class="icon_container" variant="primary" @click="viewCard = !viewCard">
-                View 
+                Change View 
                 <icons v-if="viewCard" :icon="['fal', 'table']"></icons>
                 <icons v-else :icon="['fas', 'image']"></icons>
             </b-button>

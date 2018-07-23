@@ -4,7 +4,7 @@
         <b-col>
             <b-progress v-if="showBar" :value="progressBar" variant="info" striped :animated="true" class="mb-2"></b-progress>
         </b-col>
-        <b-form v-if="show" @submit="onSubmit" @reset="onReset">
+        <b-form v-if="show" @submit.prevent="onSubmit" @reset.prevent="onReset">
             <b-form-group
                 :invalid-feedback="invalidFeedbackFile"
                 :state="!$v.file.$error"
@@ -60,7 +60,20 @@ export default {
     validations: {
 		fileName: {
 			required,
-			maxLength: maxLength(25)
+			maxLength: maxLength(25),
+            unique(value) {
+                if (value === '') 
+                    return true;
+
+                return new Promise((res, rej) => {
+                    var fileExist = this.$store.getters.existFileByName(value);
+                    // console.log(fileExist);
+                    if (!fileExist) {
+                        res(true);
+                    }
+                    rej(false);
+                });
+            }
 		},
 		file: {
 			required,
@@ -80,16 +93,16 @@ export default {
 		}
 	},
     methods: {
-        onSubmit (evt) {
-            evt.preventDefault();
+        onSubmit () {
             this.progressBar = 0;
             this.showBar = true;
-            this.$Api.uploadFile(this.$axios, this.file, this.fileName, this.updateProgressBarValue).then((res) => {
+            this.$Api.file.upload(this.$axios, this.file, this.fileName, this.updateProgressBarValue).then((res) => {
                 this.progressBar = 100;
                 this.showBar = false;
                 this.$store.dispatch('addNewFile', res);
                 this.$snotify.success('File Upload and save successfully.', 'Succes!');
                 // console.log('Succes!!', res);
+                this.onReset();
             }).catch((err) => {
                 this.progressBar = 100;
                 this.showBar = false;
@@ -97,14 +110,13 @@ export default {
                 // console.log('We got an error', err.response);
             });
         },
-        onReset (evt) {
-            evt.preventDefault();
+        onReset () {
             /* Reset our form values */
             this.file = '';
             this.fileName = '';
             /* Trick to reset/clear native browser form validation state */
             this.show = false;
-            this.$nextTick(() => { this.show = true });
+            this.$nextTick(() => { this.show = true, this.$v.$reset() });
         },
         updateProgressBarValue(val){
             this.progressBar = val;
@@ -115,8 +127,8 @@ export default {
             if(!this.$v.fileName.maxLength)
                 return "File name can't be larger than 25 characters";
 
-            // if(!this.$v.fileName.unique)
-            //     return "File name can't be the same as another file name";
+            if(!this.$v.fileName.unique)
+                return "File name can't be the same as another file name";
 
             return "Name is a required field and has to be unique!";
         },

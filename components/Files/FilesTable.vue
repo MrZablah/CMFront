@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
         <b-row>
-            <b-col md="6" class="my-1 pl-0">
+            <b-col md="6" class="space space-pl">
                 <b-form-group horizontal label="Filter" class="mb-0">
                     <b-input-group>
                         <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
@@ -11,7 +11,7 @@
                     </b-input-group>
                 </b-form-group>
             </b-col>
-            <b-col md="6" class="my-1 pr-0">
+            <b-col md="6" class="space space-pr">
                 <b-form-group horizontal label="Per page" class="mb-0">
                     <b-form-select :options="pageOptions" v-model="perPage" />
                 </b-form-group>
@@ -35,10 +35,11 @@
                 <template slot="clubs" slot-scope="row">
                     {{row.item.clubs.map(e => e.name).join(", ")}}
                 </template>
-                <template slot="actions" slot-scope="row" class="justify-content-center">
-                    <b-button size="sm" variant="primary" @click="openModal(row.item, $event.target)">Preview</b-button>
-                    <b-button size="sm" variant="danger" @click="editImg(row.item.id)" class="btn-space">Edit</b-button>
+                <template slot="actions" slot-scope="row">
+                    <b-button size="sm" variant="primary" @click="openModal(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
+                    <b-button size="sm" variant="secondary" @click="editImg(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
                     <btnDownload :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
+                    <btnDelete :id="row.item.id" class="btn_space-last"/>
                 </template>
             </b-table>
         </b-row>
@@ -56,6 +57,7 @@
 
 <script>
 import btnDownload from "./BtnDownload";
+import btnDelete from "./BtnDelete";
 export default {
     props:{
         Files: {
@@ -104,6 +106,7 @@ export default {
                 {
                     key: 'actions',
                     label: 'Actions',
+                    tdClass: 'center_row',
                     sortable: false
                 }
             ]
@@ -134,7 +137,8 @@ export default {
         }
     },
     components: {
-        btnDownload
+        btnDownload,
+        btnDelete
     }
 }
 </script>
@@ -143,10 +147,39 @@ export default {
 .custom_row{
     cursor: pointer;
 }
-.btn-space{
-    margin: 4px 0 4px 0;
-    @include mediaQ(576px){
+.center_row{
+    text-align: unset;
+    @include mediaQ(940px){
+        text-align: center;
+    }
+}
+.btn_space{
+    margin: 4px 1px 4px 0;
+    @include mediaQ(823px){
         margin: 0 4px 0 4px;
     }
+    &-last{
+        margin: 4px 0 0 0;
+        @include mediaQ(940px){
+            margin: 0 0 0 4px;
+        }
+    }
+}
+
+.space{
+    @include mediaQ(768px){
+        margin-bottom: 4px;
+        margin-top: 4px;
+    }
+    &-pr{
+        @include mediaQ(768px){
+            padding-right: 0;
+        }
+    }
+    &-pl{
+        @include mediaQ(768px){
+            padding-left: 0;
+        }
+    } 
 }
 </style>

@@ -14,7 +14,7 @@ export default {
 		Navbar
 	},
 	created(){
-    	this.$Api.getFiles(this.$axios).then((res) => {
+    	this.$Api.file.get(this.$axios).then((res) => {
 			this.$store.dispatch('setFiles', res);
 		});
   	}
