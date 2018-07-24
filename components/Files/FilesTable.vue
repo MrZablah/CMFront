@@ -51,7 +51,7 @@
         <!-- Info modal -->
         <b-modal id="modal" @hide="resetModal(modal)" :title="modal.title" ok-only>
             <pre>
-                <b-img :src="modal.img" fluid alt="Responsive image" />
+                <b-img :src="modal.img" fluid alt="Image preview" />
             </pre>
         </b-modal>
         <!-- Warning modal -->

@@ -138,7 +138,7 @@ export default {
 
             return "Invalid File";
         }
-    },
+    }
 }
 </script>
 
