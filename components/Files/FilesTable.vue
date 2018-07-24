@@ -36,10 +36,12 @@
                     {{row.item.clubs.map(e => e.name).join(", ")}}
                 </template>
                 <template slot="actions" slot-scope="row">
-                    <b-button size="sm" variant="primary" @click="openModal(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
+                    <b-button size="sm" variant="primary" @click="openModalPreview(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
                     <b-button size="sm" variant="secondary" @click="editImg(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
                     <btnDownload :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
-                    <btnDelete :id="row.item.id" class="btn_space-last"/>
+                    <b-button size="sm" variant="danger" @click="openModalDelete(row.item, $event.target)" class="btn_space-last">
+                        <icons :icon="['fa', 'trash']"></icons>
+                    </b-button>
                 </template>
             </b-table>
         </b-row>
@@ -47,17 +49,32 @@
             <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"/>
         </b-row>
         <!-- Info modal -->
-        <b-modal id="modal" @hide="resetModal" :title="modal.title" ok-only>
+        <b-modal id="modal" @hide="resetModal(modal)" :title="modal.title" ok-only>
             <pre>
                 <b-img :src="modal.img" fluid alt="Responsive image" />
             </pre>
+        </b-modal>
+        <!-- Warning modal -->
+        <b-modal id="deleteModal"
+            centered 
+            @hide="resetModal(modalDel)" 
+            :title="modalDel.title"
+            size="md"
+            header-bg-variant="danger"
+            header-text-variant="light">
+            
+            <p class="modalD_text">{{modalDel.msg}}</p>
+            
+            <div slot="modal-footer" class="w-100">
+                <b-btn size="sm" class="float-right" variant="danger" @click="deleteFile">Delete</b-btn>
+                <b-btn size="sm" class="float-right mr-1" variant="secondary" @click="hideModalDelete">Close</b-btn>
+            </div>
         </b-modal>
     </b-container>
 </template>
 
 <script>
 import btnDownload from "./BtnDownload";
-import btnDelete from "./BtnDelete";
 export default {
     props:{
         Files: {
@@ -77,6 +94,7 @@ export default {
             pageOptions: [ 10, 20, 50, 100, ],
             filter: null,
             modal: { title: '', img: null },
+            modalDel: { title: '', msg: '', id: null },
             fields: [
                 {
                     key: 'name',
@@ -118,27 +136,61 @@ export default {
         }
     },
     methods: {
+        deleteFile(id){
+            this.$snotify.async('Deleting File...', () => new Promise((resolve, reject) => {
+                this.$Api.file.delete(this.$axios, this.modalDel.id).then(res => {
+                    this.$store.dispatch('deleteFile', this.modalDel.id);
+                    this.hideModalDelete();
+                    return resolve({
+                        title: 'SUCCESS!',
+                        body: 'File Deleted!',
+                        config: {
+                            closeOnClick: true,
+                            timeout: 2000
+                        }
+                    });
+                }).catch((err) => {
+                    reject({
+                        title: 'ERROR!',
+                        body: "Can't delete file.",
+                        config: {
+                            closeOnClick: true
+                        }
+                    })
+                });
+            }));
+        },
         onFiltered (filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
-        resetModal() {
-            this.modal.title = '';
-            this.modal.img = null;
+        resetModal(modal) {
+            modal.title = '';
+            modal.msg = '';
+            modal.img = null;
+            modal.id = null;
         },
-        openModal(item, button) {
-            this.modal.title = `Name: ${item.name}`
-            this.modal.img = item.thumbUrl
-            this.$root.$emit('bv::show::modal', 'modal', button)
+        openModalPreview(item, button) {
+            this.modal.title = `Name: ${item.name}`;
+            this.modal.img = item.thumbUrl;
+            this.$root.$emit('bv::show::modal', 'modal', button);
+        },
+        openModalDelete(item, button) {
+            this.modalDel.title = 'Delete Item Confirmation';
+            this.modalDel.msg = `Are you sure you want to delete item with name: ${item.name}?`;
+            this.modalDel.id = item.id;
+            this.$root.$emit('bv::show::modal', 'deleteModal', button);
+        },
+        hideModalDelete(){
+            this.$root.$emit('bv::hide::modal','deleteModal')
         },
         editImg(id){
             this.$router.push(this.isAdmin ? '/Admin/Files/' + id : '/');
         }
     },
     components: {
-        btnDownload,
-        btnDelete
+        btnDownload
     }
 }
 </script>
@@ -146,6 +198,10 @@ export default {
 <style lang="scss">
 .custom_row{
     cursor: pointer;
+}
+.modalD_text{
+    font-size: 1.5rem;
+    color: #202020;
 }
 .center_row{
     text-align: unset;
@@ -165,7 +221,6 @@ export default {
         }
     }
 }
-
 .space{
     @include mediaQ(768px){
         margin-bottom: 4px;
