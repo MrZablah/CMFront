@@ -21,8 +21,10 @@ export default {
     },
     methods: {
         isMobil(){
-            if( this.$Utils.isMobile.iOS() )
-                return false;
+            if (process.browser) {
+                if( navigator.userAgent.match(/iPhone|iPad|iPod/i) )
+                    return false;
+            }
             return true;
         },
         downloadFile(){
