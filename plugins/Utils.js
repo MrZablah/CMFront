@@ -6,10 +6,15 @@ var newName = (fullname, name) => {
     return `${name.replace(/ /g, '')}.${ext}`;
 };
 
+var isEmptyOrSpaces = (str) => {
+    return str === null || str.match(/^ *$/) !== null;
+}
+
 if (process.browser) {
     window.onNuxtReady(() => {
         Vue.prototype.$Utils = {
             newName,
+            isEmptyOrSpaces
             // isMobile: {
             //     Android: function() {
             //         return navigator.userAgent.match(/Android/i);

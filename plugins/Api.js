@@ -26,6 +26,9 @@ Vue.prototype.$Api = {
         },
         download: (axios, id) => {
             return axios.$get(`/file/${id}/download`).then((res) => axios.get(res, { responseType:"arraybuffer" }));
+        },
+        edit: (axios, file, id) => {
+            return axios.$patch(`/file/${id}`, file);
         }
     },
 }
