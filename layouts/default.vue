@@ -1,17 +1,17 @@
 <template>
     <div>
-		<Navbar/>
+		<navbar/>
         <nuxt/>
 		<vue-snotify/>
     </div>
 </template>
 
 <script>
-import Navbar from '~/components/Navbar';
+import navbar from '~/components/Navbar';
 
 export default {
 	components: {
-		Navbar
+		navbar
 	},
 	created(){
     	this.$Api.file.get(this.$axios).then((res) => {

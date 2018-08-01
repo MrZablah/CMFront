@@ -1,9 +1,25 @@
 import Vuex from 'vuex';
-import filesStore from "./filesStore";
+import {fState, fMutations, fActions, fGetters} from "./filesStore";
+import {aState, aMutations, aActions, aGetters} from "./auth";
 
 const createStore = () => {
 	return new Vuex.Store({
-		...filesStore
+		state: {
+			...aState,
+			...fState
+		},
+		mutations: {
+			...aMutations,
+			...fMutations
+		},
+		actions: {
+			...aActions,
+			...fActions
+		},
+		getters: {
+			...aGetters,
+			...fGetters
+		}
 	});
 };
 

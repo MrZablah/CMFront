@@ -16,10 +16,6 @@
 <script>
 export default {
     props: {
-        isAdmin: {
-            type: Boolean,
-            default: false
-        },
         id: {
             type: Number,
             required: true
@@ -38,6 +34,11 @@ export default {
         // },
         tags: {
             type: Array
+        }
+    },
+    data(){
+        return {
+            isAdmin: this.$store.getters.getIsAdmin
         }
     },
     computed:{

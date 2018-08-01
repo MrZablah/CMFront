@@ -1,8 +1,7 @@
 const pkg = require('./package');
 
 module.exports = {
-    mode: 'SPA',
-
+    mode: 'spa',
     /*
     ** Headers of the page
     */
@@ -15,7 +14,6 @@ module.exports = {
         ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     },
-
     /*
     ** Customize the progress-bar color
     */
@@ -74,16 +72,23 @@ module.exports = {
             }
         }
     },
+    /* Views transitions */
     transition: {
         name: 'fade',
         mode: 'out-in'
     },
+    /* Router global config */
     router:{
         extendRoutes(routes, resolve){
             routes.push({
                 path: '*',
                 component: resolve(__dirname, 'pages/index.vue')
             })
-        }
+        },
+        middleware: 'auth'
+    },
+    /* Enviromental variables config */
+    env: {
+        baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     }
 };

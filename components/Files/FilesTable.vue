@@ -37,9 +37,9 @@
                 </template>
                 <template slot="actions" slot-scope="row">
                     <b-button size="sm" variant="primary" @click="openModalPreview(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
-                    <b-button size="sm" variant="secondary" @click="editImg(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
-                    <btnDownload :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
-                    <b-button size="sm" variant="danger" @click="openModalDelete(row.item, $event.target)" class="btn_space-last">
+                    <b-button v-if="isAdmin" size="sm" variant="secondary" @click="editImg(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
+                    <btnDownload v-if="isAdmin" :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
+                    <b-button v-if="isAdmin" size="sm" variant="danger" @click="openModalDelete(row.item, $event.target)" class="btn_space-last">
                         <icons :icon="['fa', 'trash']"></icons>
                     </b-button>
                 </template>
@@ -80,14 +80,11 @@ export default {
         Files: {
             type: Array,
             required: true
-        },
-        isAdmin: {
-            type: Boolean,
-            default: false
         }
     },
     data () {
         return {
+            isAdmin: this.$store.getters.getIsAdmin,
             currentPage: 1,
             perPage: 10,
             totalRows: this.fileRows,

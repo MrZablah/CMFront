@@ -4,8 +4,8 @@
         <b-navbar-brand to="/">CM</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav v-if="isLogin">
-                <b-nav-item to="/Admin/Files">Files</b-nav-item>
-                <b-nav-item to="/Admin/Add">Add</b-nav-item>
+                <b-nav-item :to="isAdmin ? '/Admin/Files': '/Files'" exact>Files</b-nav-item>
+                <b-nav-item v-if="isAdmin" :to="isAdmin ? '/Admin/Files/Add': '/Add'" exact>Add</b-nav-item>
             </b-navbar-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
@@ -42,7 +42,8 @@ import Login from '~/components/Login';
 export default {
     data() {
         return {
-            isLogin: true,
+            isLogin: this.$store.getters.getLogin,
+            isAdmin: this.$store.getters.getIsAdmin,
             lng: 'en'
         }
     },
