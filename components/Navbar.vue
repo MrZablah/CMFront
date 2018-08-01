@@ -27,9 +27,9 @@
                     <b-dropdown-item @click="logOut">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
 
-                <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" v-b-modal.modal-center v-if="!isLogin">Login</b-btn>
+                <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" v-b-modal.modalLogin v-if="!isLogin">Login</b-btn>
                 <!-- Modal Component -->
-                <b-modal id="modal-center" centered title="Login" :hide-footer="true">
+                <b-modal id="modalLogin" centered title="Login" :hide-footer="true">
                     <Login :showReset="false"/>
                 </b-modal>
             </b-navbar-nav>
@@ -47,9 +47,19 @@ export default {
             lng: 'en'
         }
     },
+    watch:{
+        '$store.getters.getLogin': 'checklogin',
+        '$store.getters.getIsAdmin': 'checkAdmin'
+    },
     methods:{
         logOut(){
-            console.log('LogOut');
+            this.$store.dispatch('logout');
+        },
+        checklogin(){
+            this.isLogin = this.$store.getters.getLogin;
+        },
+        checkAdmin(){
+            this.isAdmin = this.$store.getters.getIsAdmin;
         }
     },
     components: {

@@ -50,7 +50,10 @@ export default {
     },
     methods: {
         onSubmit (evt) {
-            console.log(JSON.stringify(this.form));
+            this.$store.dispatch('login', this.form).then((res) => {
+                console.log('success',res);
+                this.$root.$emit('bv::hide::modal','modalLogin')
+            });
         },
         onReset (evt) {
             this.form.username = '';

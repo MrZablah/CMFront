@@ -180,7 +180,7 @@ export default {
             this.$root.$emit('bv::show::modal', 'deleteModal', button);
         },
         hideModalDelete(){
-            this.$root.$emit('bv::hide::modal','deleteModal')
+            this.$root.$emit('bv::hide::modal','deleteModal');
         },
         editImg(id){
             this.$router.push(this.isAdmin ? '/Admin/Files/' + id : '/');
