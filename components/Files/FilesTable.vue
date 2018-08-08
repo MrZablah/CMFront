@@ -183,7 +183,7 @@ export default {
             this.$root.$emit('bv::hide::modal','deleteModal');
         },
         editImg(id){
-            this.$router.push(this.isAdmin ? '/Admin/Files/' + id : '/');
+            this.$router.push(this.isAdmin ? '/Files/' + id : '/');
         }
     },
     components: {

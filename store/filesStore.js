@@ -15,14 +15,14 @@ var fMutations = {
 };
 
 var fActions = {
-    setFiles(vuexContext, files) {
-        vuexContext.commit('setFiles', files);
+    setFiles({commit}, files) {
+        commit('setFiles', files);
     },
-    addNewFile(vuexContext, file){
-        vuexContext.commit('addFiles', file);
+    addNewFile({commit}, file){
+        commit('addFiles', file);
     },
-    deleteFile(vuexContext, fileId){
-        vuexContext.commit('deleteFile', fileId);
+    deleteFile({commit}, fileId){
+        commit('deleteFile', fileId);
     }
 };
 

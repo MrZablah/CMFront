@@ -12,6 +12,7 @@
             :state="!$v.form.name.$error ? null : false"
             v-model="$v.form.name.$model">
         </b-form-input>
+        <b-tooltip target="name" title="if leave blank name will not change."></b-tooltip>
       </b-form-group>
       <b-form-group 
             :invalid-feedback="invalidFeedbackDescription"
@@ -26,7 +27,7 @@
         </b-form-input>
       </b-form-group>
       <b-form-group 
-            :invalid-feedback="invalidFeedbackTag"
+            :invalid-feedback="invalidFeedback('tag')"
             :state="!$v.tag.$error"
             id="fileTagsGroup"
             label="Tags:"
@@ -35,8 +36,8 @@
             variant="warning" 
             v-for="tag in file.tags" 
             :key="tag.id" 
-            @click.prevent="deleteTag(tag.name)">
-                {{tag.name}}
+            @click.prevent="deleteIndex(tag.name, 'tags')">
+                {{tag.name}} <icons class="deleteIcon" :icon="['fas', 'times']"/>
             </b-badge>
         <b-input-group>
             <b-form-input id="tag"
@@ -45,13 +46,13 @@
                 v-model="$v.tag.$model">
             </b-form-input>
             <b-input-group-append>
-                <b-btn @click="addTag()">Add</b-btn>
+                <b-btn @click="addIndex('tag', 'tags')">Add</b-btn>
             </b-input-group-append>
         </b-input-group>
         <b-tooltip target="tag" title="You can delete tags by click on them!"></b-tooltip>
       </b-form-group>
       <b-form-group 
-            :invalid-feedback="invalidFeedbackCompanie"
+            :invalid-feedback="invalidFeedback('companie')"
             :state="!$v.companie.$error"
             id="fileCompaniesGroup"
             label="Companies:"
@@ -60,8 +61,8 @@
             variant="dark" 
             v-for="companie in file.companies" 
             :key="companie.id" 
-            @click.prevent="deleteCompanie(companie.name)">
-                {{companie.name}}
+            @click.prevent="deleteIndex(companie.name, 'companies')">
+                {{companie.name}} <icons class="deleteIcon" :icon="['fas', 'times']"/>
             </b-badge>
         <b-input-group>
             <b-form-input id="companie"
@@ -70,10 +71,35 @@
                 v-model="$v.companie.$model">
             </b-form-input>
              <b-input-group-append>
-                <b-btn @click="addCompanie()">Add</b-btn>
+                <b-btn @click="addIndex('companie', 'companies')">Add</b-btn>
             </b-input-group-append>
         </b-input-group>
         <b-tooltip target="companie" title="You can delete companies by click on them!"></b-tooltip>
+      </b-form-group>
+      <b-form-group 
+            :invalid-feedback="invalidFeedback('club')"
+            :state="!$v.club.$error"
+            id="fileClubsGroup"
+            label="Clubs:"
+            label-for="clubs">
+        <b-badge class="custom_badge select_badge" 
+            variant="light" 
+            v-for="clubs in file.clubs" 
+            :key="clubs.id" 
+            @click.prevent="deleteIndex(clubs.name, 'clubs')">
+                {{clubs.name}} <icons class="deleteIcon" :icon="['fas', 'times']"/>
+            </b-badge>
+        <b-input-group>
+            <b-form-input id="clubs"
+                type="text"
+                :state="!$v.club.$error ? null : false"
+                v-model="$v.club.$model">
+            </b-form-input>
+             <b-input-group-append>
+                <b-btn @click="addIndex('club', 'clubs')">Add</b-btn>
+            </b-input-group-append>
+        </b-input-group>
+        <b-tooltip target="clubs" title="You can delete clubs by click on them!"></b-tooltip>
       </b-form-group>
       <b-button type="submit" variant="primary" class="float-right mt-1">Submit</b-button>
       <!-- <b-button type="reset" variant="danger" class="float-right mr-1">Reset</b-button> -->
@@ -100,6 +126,7 @@ export default {
             },
             tag: "",
             companie: "",
+            club: "",
             show: true
         }
     },
@@ -137,50 +164,38 @@ export default {
         //     this.show = false;
         //     this.$nextTick(() => { this.show = true, this.$v.$reset() });
         // },
-        deleteTag(tagName){
-            if(this.checkTagExist(tagName))
+        deleteIndex(name, fileIndex){
+            if(this.checkExistIndex(name, fileIndex))
                 return;
 
-            this.file.tags = this.file.tags.filter(t => t.name !== tagName);
-            this.form.tags = this.file.tags;
+            this.file[fileIndex] = this.file[fileIndex].filter(t => t.name !== name);
+            this.form[fileIndex] = this.file[fileIndex];
             return;
         },
-        addTag(){
-            if(!this.checkTagExist(this.tag))
+        addIndex(index, fileIndex){
+            if(!this.checkExistIndex(this[index], fileIndex))
                 return;
 
-            this.file.tags.push({name: this.tag});
+            this.file[fileIndex].push({name: this[index]});
+            this[index] = "";
             return;
         },
-        checkTagExist(tagName){
-            var tagExist = this.file.tags.find(t => t.name.toLowerCase() == tagName.toLowerCase());
-            if(!tagExist)
+        checkExistIndex(name, fileIndex){
+            var exist = this.file[fileIndex].find(f => f.name.toLowerCase() == name.toLowerCase());
+            if(!exist)
                 return true;
             
             return false;
         },
-        deleteCompanie(companieName){
-            if(this.checkCompanieExist(companieName))
-                return;
+        invalidFeedback (index) {
+            if(!this.$v[index].maxLength)
+                return `${index.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2")} can't be larger than ${this.$v[index]} characters`;
 
-            this.file.companies = this.file.companies.filter(c => c.name !== companieName);
-            this.form.companies = this.file.companies;
-            return;
-        },
-        addCompanie(){
-            if(!this.checkCompanieExist(this.companie))
-                return;
+            if(!this.$v[index].unique)
+                return `${index.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2")} can't be the same as another ${index}`;
 
-            this.file.companies.push({name: this.companie});
-            return;
+            return `${index.replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2")} field error!`;
         },
-        checkCompanieExist(companieName){
-            var companieExist = this.file.companies.find(c => c.name.toLowerCase() == companieName.toLowerCase());
-            if(!companieExist)
-                return true;
-            
-            return false;
-        }
     },
     validations: {
 		form:{
@@ -211,7 +226,7 @@ export default {
                     return true;
 
                 return new Promise((res, rej) => {
-                    if(this.checkTagExist(value))
+                    if(this.checkExistIndex(value, 'tags'))
                         return res(true);
                     return rej(false);
                 });
@@ -224,7 +239,20 @@ export default {
                     return true;
 
                 return new Promise((res, rej) => {
-                    if(this.checkCompanieExist(value))
+                    if(this.checkExistIndex(value, 'companies'))
+                        return res(true);
+                    return rej(false);
+                });
+            }
+        },
+        club:{
+            maxLength: maxLength(15),
+            unique(value){
+                if (value === '') 
+                    return true;
+
+                return new Promise((res, rej) => {
+                    if(this.checkExistIndex(value, 'clubs'))
                         return res(true);
                     return rej(false);
                 });
@@ -246,24 +274,6 @@ export default {
                 return "File description can't be larger than 100 characters";
 
             return "Description is a required field!";
-        },
-        invalidFeedbackTag () {
-            if(!this.$v.tag.maxLength)
-                return "Tag can't be larger than 10 characters";
-
-            if(!this.$v.tag.unique)
-                return "Tag can't be the same as another tag";
-
-            return "Tag field error!";
-        },
-        invalidFeedbackCompanie () {
-            if(!this.$v.companie.maxLength)
-                return "Companie can't be larger than 15 characters";
-
-            if(!this.$v.companie.unique)
-                return "Companie can't be the same as another companie";
-
-            return "Companie field error!";
         }
     }
 }
@@ -272,6 +282,9 @@ export default {
 <style lang="scss" scoped>
     .select_badge{
         cursor: pointer;
+    }
+    .deleteIcon{
+        color: #f92727;
     }
 </style>
 

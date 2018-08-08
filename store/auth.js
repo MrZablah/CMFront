@@ -1,6 +1,6 @@
 var aState = {
-    islogin: false,
-    isAdmin: false
+    islogin: true,
+    isAdmin: true
 };
 
 var aMutations = {
@@ -19,15 +19,15 @@ var aMutations = {
 };
 
 var aActions = {
-    login(vuexContext, user){
+    login({commit}, user){
         console.log(user);
-        vuexContext.commit('login');
-        vuexContext.commit('isAdmin');
+        commit('login');
+        commit('isAdmin');
         return user;
     },
-    logout(vuexContext){
-        vuexContext.commit('logout');
-        vuexContext.commit('notAdmin');
+    logout({commit}){
+        commit('logout');
+        commit('notAdmin');
     }
 
 };
