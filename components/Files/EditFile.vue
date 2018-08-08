@@ -282,9 +282,27 @@ export default {
 <style lang="scss" scoped>
     .select_badge{
         cursor: pointer;
+        margin: 0px 1px;
+
+        &:first-of-type{
+            margin: 0px 1px 0px 0px;
+        }
     }
     .deleteIcon{
-        color: #f92727;
+        color: #ef0000;
+        background-color: #ffffffb0;
+        border: 1px solid #ffffff00;
+        border-radius: 8px;
+        width: 1rem;
+        height: 1rem;
+        box-shadow: -1px 1px 1px 0px #4c4c4cd6;
+        transition: all .5s;
+
+        &:hover{
+            background-color: unset;
+            border: unset;
+            box-shadow: unset;
+        }
     }
 </style>
 

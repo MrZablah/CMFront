@@ -51,7 +51,7 @@ export default {
     methods: {
         onSubmit (evt) {
             this.$store.dispatch('login', this.form).then((res) => {
-                console.log('success',res);
+                // console.log('success',res);
                 this.$root.$emit('bv::hide::modal','modalLogin')
             });
         },

@@ -10,13 +10,31 @@
 import navbar from '~/components/Navbar';
 
 export default {
-	components: {
-		navbar
+	data(){
+		return{
+			isLogin: this.$store.getters.getLogin,
+		}
+	},
+	watch:{
+        '$store.getters.getLogin'(isLogin){
+            this.isLogin = isLogin;
+			this.getFiles();
+		}
+    },
+	methods:{
+		getFiles(){
+			this.$Api.file.get(this.$axios).then((res) => {
+				this.$store.dispatch('setFiles', res);
+			});
+		}
 	},
 	created(){
-    	this.$Api.file.get(this.$axios).then((res) => {
-			this.$store.dispatch('setFiles', res);
-		});
-  	}
+		if(this.isLogin){
+			this.getFiles();
+		}
+  	},
+	components: {
+		navbar
+	}
 }
 </script>

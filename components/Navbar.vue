@@ -48,18 +48,16 @@ export default {
         }
     },
     watch:{
-        '$store.getters.getLogin': 'checklogin',
-        '$store.getters.getIsAdmin': 'checkAdmin'
+        '$store.getters.getLogin'(isLogin){
+            this.isLogin = isLogin;
+        },
+        '$store.getters.getIsAdmin'(IsAdmin){
+            this.isAdmin = IsAdmin;
+        }
     },
     methods:{
         logOut(){
             this.$store.dispatch('logout');
-        },
-        checklogin(){
-            this.isLogin = this.$store.getters.getLogin;
-        },
-        checkAdmin(){
-            this.isAdmin = this.$store.getters.getIsAdmin;
         }
     },
     components: {
