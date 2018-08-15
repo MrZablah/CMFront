@@ -137,7 +137,7 @@ export default {
             
             console.log(this.form);
             this.$snotify.async('Editing File...', () => new Promise((resolve, reject) => {
-                this.$Api.file.edit(this.$axios, this.form, this.file.id).then(res => {
+                this.$Api.file.edit(this.form, this.file.id).then(res => {
                     console.log(res);
                     return resolve({
                         title: 'SUCCESS!',

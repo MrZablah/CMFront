@@ -96,7 +96,7 @@ export default {
         onSubmit () {
             this.progressBar = 0;
             this.showBar = true;
-            this.$Api.file.upload(this.$axios, this.file, this.fileName, this.updateProgressBarValue).then((res) => {
+            this.$Api.file.upload(this.file, this.fileName, this.updateProgressBarValue).then((res) => {
                 this.progressBar = 100;
                 this.showBar = false;
                 this.$store.dispatch('addNewFile', res);

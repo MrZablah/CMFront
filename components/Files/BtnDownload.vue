@@ -29,7 +29,7 @@ export default {
         },
         downloadFile(){
             this.$snotify.async('Downloading File...', () => new Promise((resolve, reject) => {
-                this.$Api.file.download(this.$axios, this.id).then(res => {
+                this.$Api.file.download(this.id).then(res => {
                     let newName = this.$Utils.newName(this.pathName, this.name);
                     let type = res.headers['content-type'].toLowerCase();
                     downloadjs(res.data, newName, type);

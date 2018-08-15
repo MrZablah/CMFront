@@ -23,7 +23,7 @@ export default {
     },
 	methods:{
 		getFiles(){
-			this.$Api.file.get(this.$axios).then((res) => {
+			this.$Api.file.get().then((res) => {
 				this.$store.dispatch('setFiles', res);
 			});
 		}

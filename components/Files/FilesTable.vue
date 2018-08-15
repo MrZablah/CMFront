@@ -135,7 +135,7 @@ export default {
     methods: {
         deleteFile(id){
             this.$snotify.async('Deleting File...', () => new Promise((resolve, reject) => {
-                this.$Api.file.delete(this.$axios, this.modalDel.id).then(res => {
+                this.$Api.file.delete(this.modalDel.id).then(res => {
                     this.$store.dispatch('deleteFile', this.modalDel.id);
                     this.hideModalDelete();
                     return resolve({
