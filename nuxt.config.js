@@ -79,13 +79,13 @@ module.exports = {
 	},
 	/* Router global config */
 	router: {
+		middleware: 'auth',
 		extendRoutes(routes, resolve) {
 			routes.push({
 				path: '*',
 				component: resolve(__dirname, 'pages/index.vue')
 			});
-		},
-		middleware: 'auth'
+		}
 	},
 	/* Enviromental variables config */
 	env: {

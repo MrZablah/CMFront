@@ -1,21 +1,39 @@
 export default class FileService {
 	constructor(ctx) {
 		this.$axios = ctx.$axios;
+		this.$store = ctx.$store;
 	}
 
 	get(){
-		return this.$axios.$get('/file');
+		var token = this.$store.getters.getToken;
+		if(token === null)
+			return this.$store.dispatch('logout');
+
+		return this.$axios.$get('/file', {
+			headers: {Authorization: `Bearer ${token}`}
+		});
 	}
 
 	delete(id) {
-		return this.$axios.$delete(`/file/${id}`);
+		var token = this.$store.getters.getToken;
+		if(token === null)
+			return this.$store.dispatch('logout');
+
+		return this.$axios.$delete(`/file/${id}`, {
+			headers: {Authorization: `Bearer ${token}`}
+		});
 	}
 
 	upload(fileToUpload, fileName, progresCB) {
+		var token = this.$store.getters.getToken;
+		if(token === null)
+			return this.$store.dispatch('logout');
+
 		var form = new FormData();
 		form.append('file', fileToUpload);
 		form.append('fileName', fileName);
 		return this.$axios.$post('/file', form, {
+			headers: {Authorization: `Bearer ${token}`},
 			onUploadProgress: function(progressEvent) {
 				if (progressEvent.lengthComputable) {
 					const totalLength = progressEvent.lengthComputable
@@ -32,12 +50,23 @@ export default class FileService {
 	}
 
 	download(id) {
+		var token = this.$store.getters.getToken;
+		if(token === null)
+			return this.$store.dispatch('logout');
+
 		return this.$axios
-			.$get(`/file/${id}/download`)
-			.then(res => this.$axios.get(res, { responseType: 'arraybuffer' }));
+			.$get(`/file/${id}/download`, {
+				headers: {Authorization: `Bearer ${token}`}
+			}).then(res => this.$axios.get(res, { responseType: 'arraybuffer' }));
 	}
 
 	edit(file, id) {
-		return this.$axios.$patch(`/file/${id}`, file);
+		var token = this.$store.getters.getToken;
+		if(token === null)
+			return this.$store.dispatch('logout');
+
+		return this.$axios.$patch(`/file/${id}`, file, {
+			headers: {Authorization: `Bearer ${token}`}
+		});
 	}
 }

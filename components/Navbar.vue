@@ -24,21 +24,16 @@
                     <template slot="button-content">
                         <em>User</em>
                     </template>
-                    <b-dropdown-item @click="logOut">Signout</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
 
-                <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" v-b-modal.modalLogin v-if="!isLogin">Login</b-btn>
-                <!-- Modal Component -->
-                <b-modal id="modalLogin" centered title="Login" :hide-footer="true">
-                    <Login :showReset="false"/>
-                </b-modal>
+                <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" @click="login" v-if="!isLogin">Login</b-btn>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
 </template>
 
 <script>
-import Login from '~/components/Login';
 export default {
     data() {
         return {
@@ -56,12 +51,15 @@ export default {
         }
     },
     methods:{
-        logOut(){
+        logout(){
             this.$store.dispatch('logout');
-        }
+        },
+		login(){
+			this.$Api.auth.login();
+		}
     },
-    components: {
-        Login,
-    }
+	created(){
+		this.$store.dispatch('tryAutoLogin');
+	}
 }
 </script>
