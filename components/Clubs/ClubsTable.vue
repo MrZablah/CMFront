@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid>
+	<b-container fluid>
         <b-row>
             <b-col md="6" class="space space-pl">
                 <b-form-group horizontal label="Filter" class="mb-0">
@@ -19,26 +19,24 @@
         </b-row>
         <b-row>
             <b-table responsive striped hover dark 
-                :items="Files" 
+                :items="Clubs" 
                 :fields="fields"
                 :per-page="perPage" 
                 :filter="filter"
                 @filtered="onFiltered"
                 :current-page="currentPage"
                 sort-by="name">
-                <template slot="tags" slot-scope="row">
-                    {{row.item.tags.map(e => e.name).join(", ")}}
+                <template slot="types" slot-scope="row">
+                    {{row.item.types.map(e => e.name).join(", ")}}
                 </template>
-                <template slot="companies" slot-scope="row">
-                    {{row.item.companies.map(e => e.name).join(", ")}}
+                <template slot="regions" slot-scope="row">
+                    {{row.item.regions.map(e => e.name).join(", ")}}
                 </template>
-                <template slot="clubs" slot-scope="row">
-                    {{row.item.clubs.map(e => e.name).join(", ")}}
+                <template slot="countries" slot-scope="row">
+                    {{row.item.regions.map(e => e.countries.map(e => e.name)).join(", ")}}
                 </template>
                 <template slot="actions" slot-scope="row">
-                    <b-button size="sm" variant="primary" @click="openModalPreview(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
-                    <b-button v-if="isAdmin" size="sm" variant="secondary" @click="editFile(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
-                    <btnDownload v-if="isAdmin" :id="row.item.id" :pathName="row.item.pathName" :name="row.item.name"/>
+                    <b-button v-if="isAdmin" size="sm" variant="secondary" @click="editClub(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
                     <b-button v-if="isAdmin" size="sm" variant="danger" @click="openModalDelete(row.item, $event.target)" class="btn_space-last">
                         <icons :icon="['fa', 'trash']"></icons>
                     </b-button>
@@ -48,13 +46,7 @@
         <b-row align-h="center">
             <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"/>
         </b-row>
-        <!-- Info modal -->
-        <b-modal id="modal" @hide="resetModal(modal)" :title="modal.title" ok-only>
-            <pre>
-                <b-img :src="modal.img" fluid alt="Image preview" />
-            </pre>
-        </b-modal>
-        <!-- Warning modal -->
+		<!-- Warning modal -->
         <b-modal id="deleteModal"
             centered 
             @hide="resetModal(modalDel)" 
@@ -66,7 +58,7 @@
             <p class="modalD_text">{{modalDel.msg}}</p>
             
             <div slot="modal-footer" class="w-100">
-                <b-btn size="sm" class="float-right" variant="danger" @click="deleteFile">Delete</b-btn>
+                <b-btn size="sm" class="float-right" variant="danger" @click="deleteClub">Delete</b-btn>
                 <b-btn size="sm" class="float-right mr-1" variant="secondary" @click="hideModalDelete">Close</b-btn>
             </div>
         </b-modal>
@@ -74,23 +66,21 @@
 </template>
 
 <script>
-import btnDownload from "./BtnDownload";
 export default {
-    props:{
-        Files: {
-            type: Array,
-            required: true
-        }
-    },
-    data () {
-        return {
-            isAdmin: this.$store.getters.getIsAdmin,
+	props:{
+		Clubs: {
+			type: Array,
+			required: true
+		}
+	},
+	data(){
+		return{
+			isAdmin: this.$store.getters.getIsAdmin,
             currentPage: 1,
             perPage: 10,
             totalRows: this.fileRows,
             pageOptions: [ 10, 20, 50, 100, ],
             filter: null,
-            modal: { title: '', img: null },
             modalDel: { title: '', msg: '', id: null },
             fields: [
                 {
@@ -99,48 +89,53 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'extension',
-                    label: 'Extension',
+                    key: 'url',
+                    label: 'Club Url',
+                    sortable: false
+                },
+                {
+                    key: 'types',
+                    label: 'Types',
                     sortable: true
                 },
                 {
-                    key: 'tags',
-                    label: 'Tags',
+                    key: 'regions',
+                    label: 'Regions',
                     sortable: true
                 },
                 {
-                    key: 'companies',
-                    label: 'Companies',
-                    sortable: true
+                    key: 'countries',
+                    label: 'Countries',
+                    sortable: false
                 },
-                {
-                    key: 'clubs',
-                    label: 'Clubs',
-                    sortable: true
-                },
-                {
+				{
                     key: 'actions',
                     label: 'Actions',
                     tdClass: 'center_row',
                     sortable: false
                 }
             ]
-        }
+		}
+	},
+	watch:{
+        '$store.getters.loadedClubs'(clubs){
+            this.clubs = clubs;
+		}
     },
-    computed:{
-        fileRows(){
-            return this.Files.length;
-        }
-    },
-    methods: {
-        deleteFile(id){
-            this.$snotify.async('Deleting File...', () => new Promise((resolve, reject) => {
-                this.$Api.file.delete(this.modalDel.id).then(res => {
-                    this.$store.dispatch('deleteFile', this.modalDel.id);
+	methods:{
+		onFiltered (filteredItems) {
+			// Trigger pagination to update the number of buttons/pages due to filtering
+            this.totalRows = filteredItems.length
+            this.currentPage = 1
+        },
+		deleteClub(id){
+            this.$snotify.async('Deleting Club...', () => new Promise((resolve, reject) => {
+                this.$Api.club.delete(this.modalDel.id).then(res => {
+                    this.$store.dispatch('deleteClub', this.modalDel.id);
                     this.hideModalDelete();
                     return resolve({
                         title: 'SUCCESS!',
-                        body: 'File Deleted!',
+                        body: 'Club Deleted!',
                         config: {
                             closeOnClick: true,
                             timeout: 2000
@@ -149,7 +144,7 @@ export default {
                 }).catch((err) => {
                     reject({
                         title: 'ERROR!',
-                        body: "Can't delete file.",
+                        body: "Can't delete club.",
                         config: {
                             closeOnClick: true
                         }
@@ -157,23 +152,15 @@ export default {
                 });
             }));
         },
-        onFiltered (filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
-            this.totalRows = filteredItems.length
-            this.currentPage = 1
+		editClub(id){
+            this.$router.push(this.isAdmin ? '/Clubs/' + id : '/');
         },
-        resetModal(modal) {
+		resetModal(modal) {
             modal.title = '';
             modal.msg = '';
-            modal.img = null;
             modal.id = null;
         },
-        openModalPreview(item, button) {
-            this.modal.title = `Name: ${item.name}`;
-            this.modal.img = item.thumbUrl;
-            this.$root.$emit('bv::show::modal', 'modal', button);
-        },
-        openModalDelete(item, button) {
+		openModalDelete(item, button) {
             this.modalDel.title = 'Delete Item Confirmation';
             this.modalDel.msg = `Are you sure you want to delete item with name: ${item.name}?`;
             this.modalDel.id = item.id;
@@ -181,25 +168,12 @@ export default {
         },
         hideModalDelete(){
             this.$root.$emit('bv::hide::modal','deleteModal');
-        },
-        editFile(id){
-            this.$router.push(this.isAdmin ? '/Files/' + id : '/');
         }
-    },
-    components: {
-        btnDownload
-    }
+	}
 }
 </script>
 
 <style lang="scss" scoped>
-.custom_row{
-    cursor: pointer;
-}
-.modalD_text{
-    font-size: 1.5rem;
-    color: #202020;
-}
 .center_row{
     text-align: unset;
     @include mediaQ(940px){

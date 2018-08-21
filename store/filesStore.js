@@ -1,8 +1,8 @@
-var fState = {
+var filesState = {
 	loadedFiles: []
 };
 
-var fMutations = {
+var filesMutations = {
 	setFiles(state, files) {
 		state.loadedFiles = files;
 	},
@@ -14,7 +14,7 @@ var fMutations = {
 	}
 };
 
-var fActions = {
+var filesActions = {
 	setFiles({ commit }, files) {
 		commit('setFiles', files);
 	},
@@ -26,7 +26,7 @@ var fActions = {
 	}
 };
 
-var fGetters = {
+var filesGetters = {
 	loadedFiles: state => state.loadedFiles,
 	getFileById: state => id => {
 		var file = state.loadedFiles.find(f => f.id == id);
@@ -43,8 +43,8 @@ var fGetters = {
 };
 
 module.exports = {
-	fState,
-	fMutations,
-	fActions,
-	fGetters
+	filesState,
+	filesMutations,
+	filesActions,
+	filesGetters
 };

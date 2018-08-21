@@ -18,19 +18,22 @@ export default {
 	watch:{
         '$store.getters.getLogin'(isLogin){
             this.isLogin = isLogin;
-			this.getFiles();
+			this.getData();
 		}
     },
 	methods:{
-		getFiles(){
+		getData(){
 			this.$Api.file.get().then((res) => {
 				this.$store.dispatch('setFiles', res);
+			});
+			this.$Api.club.get().then((res) => {
+				this.$store.dispatch('setClubs', res);
 			});
 		}
 	},
 	created(){
 		if(this.isLogin){
-			this.getFiles();
+			this.getData();
 		}
   	},
 	components: {

@@ -4,8 +4,15 @@
         <b-navbar-brand to="/">CM</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav v-if="isLogin">
-                <b-nav-item to="/Files" exact>Files</b-nav-item>
-                <b-nav-item v-if="isAdmin" to="/Files/Add" exact>Add</b-nav-item>
+				<b-nav-item-dropdown text="Files">
+					<b-dropdown-item to="/Files" exact>View</b-dropdown-item>
+					<b-dropdown-item v-if="isAdmin" to="/Files/Add" exact>Add</b-dropdown-item>
+                </b-nav-item-dropdown>
+				
+				<b-nav-item-dropdown text="Clubs">
+					<b-dropdown-item to="/Clubs" exact>View</b-dropdown-item>
+					<b-dropdown-item v-if="isAdmin" to="/Clubs/Add" exact>Add</b-dropdown-item>
+                </b-nav-item-dropdown>
             </b-navbar-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
@@ -22,9 +29,9 @@
 
                 <b-nav-item-dropdown right v-if="isLogin">
                     <template slot="button-content">
-                        <em>User</em>
+                        <em>Admin</em>
                     </template>
-                    <b-dropdown-item @click="logout">Signout</b-dropdown-item>
+                    <b-dropdown-item @click.prevent="logout">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
 
                 <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" @click="login" v-if="!isLogin">Login</b-btn>
