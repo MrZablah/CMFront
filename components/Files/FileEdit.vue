@@ -9,6 +9,7 @@
             label-for="name">
         <b-form-input id="name"
             type="text"
+            :placeholder="file.name"
             :state="!$v.form.name.$error ? null : false"
             v-model="$v.form.name.$model">
         </b-form-input>
@@ -120,7 +121,7 @@ export default {
             required: true
         },
         clubs: {
-            type: Object,
+            type: Array,
             required: true
         }
     },

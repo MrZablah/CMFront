@@ -18,7 +18,7 @@ export default {
     data(){
         return {
             file: '',
-            clubs: this.$store.getters.GET_FILES
+            clubs: this.$store.getters.GET_CLUBS
         }
     },
     created(){
