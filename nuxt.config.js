@@ -34,6 +34,7 @@ module.exports = {
 		'@/plugins/Fontawesom.js',
 		'@/plugins/Vuelidate.js',
 		'@/plugins/VueNotification.js',
+		'@/plugins/Filters.js',
 		'@/plugins/Utils.js'
 	],
 

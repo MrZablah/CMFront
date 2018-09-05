@@ -5,9 +5,9 @@ export default class FileService {
 	}
 
 	get(){
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$get('/file', {
 			headers: {Authorization: `Bearer ${token}`}
@@ -15,9 +15,9 @@ export default class FileService {
 	}
 
 	delete(id) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$delete(`/file/${id}`, {
 			headers: {Authorization: `Bearer ${token}`}
@@ -25,9 +25,9 @@ export default class FileService {
 	}
 
 	upload(fileToUpload, fileName, progresCB) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		var form = new FormData();
 		form.append('file', fileToUpload);
@@ -50,9 +50,9 @@ export default class FileService {
 	}
 
 	download(id) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios
 			.$get(`/file/${id}/download`, {
@@ -61,9 +61,9 @@ export default class FileService {
 	}
 
 	edit(file, id) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$patch(`/file/${id}`, file, {
 			headers: {Authorization: `Bearer ${token}`}

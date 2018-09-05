@@ -90,18 +90,23 @@
                 {{clubs.name}} <icons class="deleteIcon" :icon="['fas', 'times']"/>
             </b-badge>
         <b-input-group>
-            <b-form-input id="clubs"
+            <!-- <b-form-input id="clubs"
                 type="text"
                 :state="!$v.club.$error ? null : false"
                 v-model="$v.club.$model">
-            </b-form-input>
-             <b-input-group-append>
+            </b-form-input> -->
+            <b-form-select id="clubs"
+                      :options="clubs.map(e => e.name)"
+                      :state="!$v.club.$error ? null : false"
+                      v-model="$v.club.$model">
+            </b-form-select>
+            <b-input-group-append>
                 <b-btn @click="addIndex('club', 'clubs')">Add</b-btn>
             </b-input-group-append>
         </b-input-group>
         <b-tooltip target="clubs" title="You can delete clubs by click on them!"></b-tooltip>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="float-right mt-1">Submit</b-button>
+      <b-button type="submit" :disabled="$v.$invalid" variant="primary" class="float-right mt-1">Submit</b-button>
       <!-- <b-button type="reset" variant="danger" class="float-right mr-1">Reset</b-button> -->
     </b-form>
 </template>
@@ -114,6 +119,10 @@ export default {
             type: Object,
             required: true
         },
+        clubs: {
+            type: Object,
+            required: true
+        }
     },
     data () {
         return {
@@ -206,7 +215,7 @@ export default {
                         return true;
 
                     return new Promise((res, rej) => {
-                        var fileExist = this.$store.getters.existFileByName(value);
+                        var fileExist = this.$store.getters.EXIST_FILE_NAME(value);
                         // console.log(fileExist);
                         if (!fileExist) {
                             res(true);

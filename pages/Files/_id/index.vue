@@ -6,28 +6,29 @@
             </b-col>
             <b-col>
                 <h1>Edit File</h1>
-                <EditFile :file="file"/>
+                <FileEdit :file="file" :clubs="clubs"/>
             </b-col>
          </b-row>
     </b-container>
 </template>
 
 <script>
-import EditFile from "~/components/Files/EditFile";
+import FileEdit from "~/components/Files/FileEdit";
 export default {
     data(){
         return {
-            file: ''
+            file: '',
+            clubs: this.$store.getters.GET_FILES
         }
     },
     created(){
-        var file = this.$store.getters.getFileById(this.$route.params.id);
+        var file = this.$store.getters.GET_FILE_ID(this.$route.params.id);
         if(!file)
             return this.$router.push('/');
         return this.file = file;
     },
     components: {
-        EditFile
+        FileEdit
     }
 }
 </script>

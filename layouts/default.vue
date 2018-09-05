@@ -12,11 +12,11 @@ import navbar from '~/components/Navbar';
 export default {
 	data(){
 		return{
-			isLogin: this.$store.getters.getLogin,
+			isLogin: this.$store.getters.IS_LOGIN,
 		}
 	},
 	watch:{
-        '$store.getters.getLogin'(isLogin){
+        '$store.getters.IS_LOGIN'(isLogin){
             this.isLogin = isLogin;
 			this.getData();
 		}
@@ -24,10 +24,10 @@ export default {
 	methods:{
 		getData(){
 			this.$Api.file.get().then((res) => {
-				this.$store.dispatch('setFiles', res);
+				this.$store.dispatch('SET_FILES', res);
 			});
 			this.$Api.club.get().then((res) => {
-				this.$store.dispatch('setClubs', res);
+				this.$store.dispatch('SET_CLUBS', res);
 			});
 		}
 	},

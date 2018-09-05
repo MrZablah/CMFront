@@ -1,29 +1,29 @@
 import Vuex from 'vuex';
-import {authState, authMutations, authActions, authGetters} from './auth';
-import {filesState, filesMutations, filesActions, filesGetters} from './filesStore';
-import {clubsState, clubsMutations, clubsActions, clubsGetters} from './ClubsStore';
+import * as auth from './auth';
+import * as files from './files';
+import * as clubs from './clubs';
 
 const createStore = () => {
 	return new Vuex.Store({
 		state: {
-			...authState,
-			...filesState,
-			...clubsState
+			...auth.STATE,
+			...files.STATE,
+			...clubs.STATE,
 		},
 		mutations: {
-			...authMutations,
-			...filesMutations,
-			...clubsMutations
+			...auth.MUTATIONS,
+			...files.MUTATIONS,
+			...clubs.MUTATIONS,
 		},
 		actions: {
-			...authActions,
-			...filesActions,
-			...clubsActions
+			...auth.ACTIONS,
+			...files.ACTIONS,
+			...clubs.ACTIONS,
 		},
 		getters: {
-			...authGetters,
-			...filesGetters,
-			...clubsGetters
+			...auth.GETTERS,
+			...files.GETTERS,
+			...clubs.GETTERS,
 		}
 	});
 };

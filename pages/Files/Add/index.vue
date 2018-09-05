@@ -66,7 +66,7 @@ export default {
                     return true;
 
                 return new Promise((res, rej) => {
-                    var fileExist = this.$store.getters.existFileByName(value);
+                    var fileExist = this.$store.getters.EXIST_FILE_NAME(value);
                     // console.log(fileExist);
                     if (!fileExist) {
                         res(true);
@@ -99,7 +99,7 @@ export default {
             this.$Api.file.upload(this.file, this.fileName, this.updateProgressBarValue).then((res) => {
                 this.progressBar = 100;
                 this.showBar = false;
-                this.$store.dispatch('addNewFile', res);
+                this.$store.dispatch('ADD_FILE', res);
                 this.$snotify.success('File Upload and save successfully.', 'Succes!');
                 // console.log('Succes!!', res);
                 this.onReset();

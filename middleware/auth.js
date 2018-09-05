@@ -5,12 +5,12 @@ export default function({ store, route, redirect }) {
 		if(!route.query.code || route.query.code === undefined)
 			return redirect('/');
 		
-		store.dispatch('login', route.query.code);
+		store.dispatch('LOGIN', route.query.code);
 	}
 
-	if (!store.getters.getLogin && route.fullPath !== '/') 
+	if (!store.getters.IS_LOGIN && route.fullPath !== '/') 
 		return redirect('/');
 
-	if (!store.getters.getIsAdmin && route.fullPath.toLowerCase().includes('files/'))
+	if (!store.getters.IS_ADMIN && route.fullPath.toLowerCase().includes('files/'))
 		return redirect('/');
 }

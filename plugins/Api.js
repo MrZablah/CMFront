@@ -7,6 +7,14 @@ export default (ctx, inject) => {
 	const file = new FileService({ $axios: ctx.app.$axios, $store: ctx.app.store });
 	const club = new ClubService({ $axios: ctx.app.$axios, $store: ctx.app.store });
 
-	ctx.$Api = {'file': file, 'auth': auth, 'club': club};
-	inject('Api', {'file': file, 'auth': auth, 'club': club});
+	ctx.$Api = {
+		'file': file,
+		'auth': auth,
+		'club': club
+	};
+	inject('Api', {
+		'file': file,
+		'auth': auth,
+		'club': club
+	});
 };

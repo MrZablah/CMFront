@@ -33,7 +33,6 @@
                     </template>
                     <b-dropdown-item @click.prevent="logout">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
-
                 <b-btn size="sm" class="my-2 my-sm-0 ml-2" variant="success" @click="login" v-if="!isLogin">Login</b-btn>
             </b-navbar-nav>
         </b-collapse>
@@ -44,29 +43,29 @@
 export default {
     data() {
         return {
-            isLogin: this.$store.getters.getLogin,
-            isAdmin: this.$store.getters.getIsAdmin,
+            isLogin: this.$store.getters.IS_LOGIN,
+            isAdmin: this.$store.getters.IS_ADMIN,
             lng: 'en'
         }
     },
     watch:{
-        '$store.getters.getLogin'(isLogin){
+        '$store.getters.IS_LOGIN'(isLogin){
             this.isLogin = isLogin;
         },
-        '$store.getters.getIsAdmin'(IsAdmin){
+        '$store.getters.IS_ADMIN'(IsAdmin){
             this.isAdmin = IsAdmin;
         }
     },
     methods:{
         logout(){
-            this.$store.dispatch('logout');
+            this.$store.dispatch('LOGOUT');
         },
 		login(){
 			this.$Api.auth.login();
 		}
     },
 	created(){
-		this.$store.dispatch('tryAutoLogin');
+		this.$store.dispatch('AUTO_LOGIN');
 	}
 }
 </script>

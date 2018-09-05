@@ -11,7 +11,7 @@ import ClubsTable from "~/components/Clubs/ClubsTable";
 export default {
 	methods: {
         loadedClubs(){
-            return this.$store.getters.loadedClubs;
+            return this.$store.getters.GET_CLUBS;
         }
     },
     components: {

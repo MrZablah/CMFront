@@ -5,9 +5,9 @@ export default class ClubService {
 	}
 
 	get(){
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$get('/club', {
 			headers: {Authorization: `Bearer ${token}`}
@@ -15,9 +15,9 @@ export default class ClubService {
 	}
 
 	delete(id) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$delete(`/club/${id}`, {
 			headers: {Authorization: `Bearer ${token}`}
@@ -25,9 +25,9 @@ export default class ClubService {
 	}
 
 	edit(club, id) {
-		var token = this.$store.getters.getToken;
+		var token = this.$store.getters.GET_TOKEN;
 		if(token === null)
-			return this.$store.dispatch('logout');
+			return this.$store.dispatch('LOGOUT');
 
 		return this.$axios.$patch(`/club/${id}`, club, {
 			headers: {Authorization: `Bearer ${token}`}

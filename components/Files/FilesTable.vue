@@ -27,13 +27,13 @@
                 :current-page="currentPage"
                 sort-by="name">
                 <template slot="tags" slot-scope="row">
-                    {{row.item.tags.map(e => e.name).join(", ")}}
+                    {{ row.item.tags | nameSpaced | limitWords }}
                 </template>
                 <template slot="companies" slot-scope="row">
-                    {{row.item.companies.map(e => e.name).join(", ")}}
+                    {{ row.item.companies | nameSpaced | limitWords }}
                 </template>
                 <template slot="clubs" slot-scope="row">
-                    {{row.item.clubs.map(e => e.name).join(", ")}}
+                    {{ row.item.clubs | nameSpaced | limitWords }}
                 </template>
                 <template slot="actions" slot-scope="row">
                     <b-button size="sm" variant="primary" @click="openModalPreview(row.item, $event.target)"><icons :icon="['fas', 'eye']"></icons></b-button>
@@ -84,7 +84,7 @@ export default {
     },
     data () {
         return {
-            isAdmin: this.$store.getters.getIsAdmin,
+            isAdmin: this.$store.getters.IS_ADMIN,
             currentPage: 1,
             perPage: 10,
             totalRows: this.fileRows,
@@ -136,7 +136,7 @@ export default {
         deleteFile(id){
             this.$snotify.async('Deleting File...', () => new Promise((resolve, reject) => {
                 this.$Api.file.delete(this.modalDel.id).then(res => {
-                    this.$store.dispatch('deleteFile', this.modalDel.id);
+                    this.$store.dispatch('DELETE_FILE', this.modalDel.id);
                     this.hideModalDelete();
                     return resolve({
                         title: 'SUCCESS!',
@@ -202,18 +202,18 @@ export default {
 }
 .center_row{
     text-align: unset;
-    @include mediaQ(940px){
+    @include mediaQ(768px){
         text-align: center;
     }
 }
 .btn_space{
     margin: 4px 1px 4px 0;
-    @include mediaQ(823px){
+    @include mediaQ(768px){
         margin: 0 4px 0 4px;
     }
     &-last{
         margin: 4px 0 0 0;
-        @include mediaQ(940px){
+        @include mediaQ(768px){
             margin: 0 0 0 4px;
         }
     }

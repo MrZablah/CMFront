@@ -38,7 +38,7 @@ export default {
     },
     data(){
         return {
-            isAdmin: this.$store.getters.getIsAdmin
+            isAdmin: this.$store.getters.IS_ADMIN
         }
     },
     computed:{

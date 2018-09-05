@@ -27,13 +27,13 @@
                 :current-page="currentPage"
                 sort-by="name">
                 <template slot="types" slot-scope="row">
-                    {{row.item.types.map(e => e.name).join(", ")}}
+                    {{ row.item.types | nameSpaced | limitWords }}
                 </template>
                 <template slot="regions" slot-scope="row">
-                    {{row.item.regions.map(e => e.name).join(", ")}}
+                    {{ row.item.regions | nameSpaced | limitWords }}
                 </template>
                 <template slot="countries" slot-scope="row">
-                    {{row.item.regions.map(e => e.countries.map(e => e.name)).join(", ")}}
+                    {{ row.item.regions | nameChildSpaced('countries') | limitWords }}
                 </template>
                 <template slot="actions" slot-scope="row">
                     <b-button v-if="isAdmin" size="sm" variant="secondary" @click="editClub(row.item.id)" class="btn_space"><icons :icon="['fas', 'file-edit']"></icons></b-button>
@@ -75,7 +75,7 @@ export default {
 	},
 	data(){
 		return{
-			isAdmin: this.$store.getters.getIsAdmin,
+			isAdmin: this.$store.getters.IS_ADMIN,
             currentPage: 1,
             perPage: 10,
             totalRows: this.fileRows,
@@ -118,7 +118,7 @@ export default {
 		}
 	},
 	watch:{
-        '$store.getters.loadedClubs'(clubs){
+        '$store.getters.GET_CLUBS'(clubs){
             this.clubs = clubs;
 		}
     },
@@ -131,7 +131,7 @@ export default {
 		deleteClub(id){
             this.$snotify.async('Deleting Club...', () => new Promise((resolve, reject) => {
                 this.$Api.club.delete(this.modalDel.id).then(res => {
-                    this.$store.dispatch('deleteClub', this.modalDel.id);
+                    this.$store.dispatch('DELETE_CLUB', this.modalDel.id);
                     this.hideModalDelete();
                     return resolve({
                         title: 'SUCCESS!',

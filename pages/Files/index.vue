@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         loadedFiles(){
-            return this.$store.getters.loadedFiles;
+            return this.$store.getters.GET_FILES;
         }
     },
     components: {
