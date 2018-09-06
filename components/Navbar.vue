@@ -1,5 +1,5 @@
 <template>
-    <b-navbar toggleable="md" type="dark" variant="dark" fixed="top" :sticky="true">
+    <b-navbar toggleable="md" type="dark" variant="dark" fixed="top" :sticky="true" class="navbar_custom">
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-navbar-brand to="/">CM</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
@@ -59,6 +59,7 @@ export default {
     methods:{
         logout(){
             this.$store.dispatch('LOGOUT');
+            return this.$router.push('/');
         },
 		login(){
 			this.$Api.auth.login();
@@ -69,3 +70,10 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.navbar_custom{
+    background: $gradient-primary;
+}
+</style>
+

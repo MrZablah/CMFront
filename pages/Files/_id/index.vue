@@ -1,6 +1,6 @@
 <template>
-    <b-container fluid class="mt-1">
-         <b-row>
+    <b-container fluid class="mt-3">
+         <b-row class="custom_view_container">
             <b-col md="3">
                 <b-img rounded fluid :src="file.thumbUrl" class="img_thumb"/>
             </b-col>

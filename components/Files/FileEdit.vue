@@ -28,28 +28,14 @@
         </b-form-input>
       </b-form-group>
       <b-form-group 
-            :invalid-feedback="invalidFeedback('tag')"
-            :state="!$v.tag.$error"
             id="fileTagsGroup"
             label="Tags:"
             label-for="tag">
-        <b-badge class="custom_badge select_badge" 
-            variant="warning" 
-            v-for="tag in file.tags" 
-            :key="tag.id" 
-            @click.prevent="deleteIndex(tag.name, 'tags')">
-                {{tag.name}} <icons class="deleteIcon" :icon="['fas', 'times']"/>
-            </b-badge>
-        <b-input-group>
-            <b-form-input id="tag"
-                type="text"
-                :state="!$v.tag.$error ? null : false"
-                v-model="$v.tag.$model">
-            </b-form-input>
-            <b-input-group-append>
-                <b-btn @click="addIndex('tag', 'tags')">Add</b-btn>
-            </b-input-group-append>
-        </b-input-group>
+        <tags-input element-id="tag"
+            input-class="form-control"
+            v-model="form.tags"
+            :existing-tags="existingTags"
+            :typeahead="true"></tags-input>
         <b-tooltip target="tag" title="You can delete tags by click on them!"></b-tooltip>
       </b-form-group>
       <b-form-group 
@@ -97,7 +83,7 @@
                 v-model="$v.club.$model">
             </b-form-input> -->
             <b-form-select id="clubs"
-                      :options="clubs.map(e => e.name)"
+                      :options="filterClubs()"
                       :state="!$v.club.$error ? null : false"
                       v-model="$v.club.$model">
             </b-form-select>
@@ -130,17 +116,29 @@ export default {
             form: {
                 name: null,
                 description: this.file.description,
-                tags: this.file.tags,
+                tags: this.file.tags.map(t => t.name).join(', '),
                 companies: this.file.companies,
                 clubs: this.file.clubs,
             },
-            tag: "",
+            existingTags: [
+                'tags',
+                'selected',
+                'by',
+                'default',
+            ],
             companie: "",
             club: "",
             show: true
         }
     },
     methods: {
+        // onReset () {
+        //     /* Reset our form values */
+        //     this.form.name = '';
+        //     /* Trick to reset/clear native browser form validation state */
+        //     this.show = false;
+        //     this.$nextTick(() => { this.show = true, this.$v.$reset() });
+        // },
         onSubmit () {
             if(this.$Utils.isEmptyOrSpaces(this.form.name))
                 delete this.form.name;
@@ -167,13 +165,15 @@ export default {
                 });
             }));
         },
-        // onReset () {
-        //     /* Reset our form values */
-        //     this.form.name = '';
-        //     /* Trick to reset/clear native browser form validation state */
-        //     this.show = false;
-        //     this.$nextTick(() => { this.show = true, this.$v.$reset() });
-        // },
+        filterClubs(){
+            let filter = this.clubs.filter(c => {
+                let check = this.file.clubs.map(fc => {
+                    return c.name == fc.name;
+                });
+                return !check.find(r => r == true);
+            });
+            return filter.map(c => c.name);
+        },
         deleteIndex(name, fileIndex){
             if(this.checkExistIndex(name, fileIndex))
                 return;
@@ -228,19 +228,6 @@ export default {
             description:{
                 maxLength: maxLength(100)
             },
-        },
-        tag:{
-            maxLength: maxLength(10),
-            unique(value){
-                if (value === '') 
-                    return true;
-
-                return new Promise((res, rej) => {
-                    if(this.checkExistIndex(value, 'tags'))
-                        return res(true);
-                    return rej(false);
-                });
-            }
         },
         companie:{
             maxLength: maxLength(15),

@@ -1,13 +1,13 @@
 <template>
     <b-container fluid>
         <b-row align-h="end">
-            <b-button class="icon_container" variant="primary" @click="viewCard = !viewCard">
+            <b-button class="icon_container" variant="dark" @click="viewCard = !viewCard">
                 Change View 
                 <icons v-if="viewCard" :icon="['fal', 'table']"></icons>
                 <icons v-else :icon="['fas', 'image']"></icons>
             </b-button>
         </b-row>
-        <b-row>
+        <b-row class="custom_view_container">
             <FilesList v-if="viewCard" :Files="loadedFiles()"/>
             <FilesTable v-else :Files="loadedFiles()"/>
         </b-row>

@@ -1,43 +1,43 @@
 <template>
-    <b-container>
-        <h1>Upload File</h1>
-        <b-col>
-            <b-progress v-if="showBar" :value="progressBar" variant="info" striped :animated="true" class="mb-2"></b-progress>
-        </b-col>
-        <b-form v-if="show" @submit.prevent="onSubmit" @reset.prevent="onReset">
-            <b-form-group
-                :invalid-feedback="invalidFeedbackFile"
-                :state="!$v.file.$error"
-                label="Choose a file:"
-                label-for="file">
-                <b-form-file
-                    id="file"
-                    :state="!$v.file.$error ? null : false"
-                    v-model="$v.file.$model"
-                    placeholder="Choose a file..." 
-                    accept=".jpeg, .jpg, .png, .gif, .mp3, .mp4"
-                    required>
-                </b-form-file>
-            </b-form-group>
-            <b-form-group
-                :invalid-feedback="invalidFeedbackFileName"
-                :state="!$v.fileName.$error"
-                label="Your Name:"
-                label-for="fileName">
-                <b-form-input
-                    :state="!$v.fileName.$error ? null : false"
-                    id="fileName"
-                    type="text"
-                    v-model="$v.fileName.$model"
-                    placeholder="Enter file name"
-                    required>
-                </b-form-input>
-            </b-form-group>
-            <b-row align-h="end">
-                <b-button type="reset" variant="danger">Reset</b-button>
-                <b-button type="submit" variant="primary" class="ml-1 mr-3" :disabled="$v.$invalid">Submit</b-button>
-            </b-row>
-        </b-form>
+    <b-container fluid class="mt-4">
+        <div class="custom_view_container">
+            <h1>Upload File</h1>
+            <b-progress v-if="showBar" :value="progressBar" variant="primary" striped :animated="true" class="mb-2"></b-progress>
+            <b-form v-if="show" @submit.prevent="onSubmit" @reset.prevent="onReset">
+                <b-form-group
+                    :invalid-feedback="invalidFeedbackFile"
+                    :state="!$v.file.$error"
+                    label="Choose a file:"
+                    label-for="file">
+                    <b-form-file
+                        id="file"
+                        :state="!$v.file.$error ? null : false"
+                        v-model="$v.file.$model"
+                        placeholder="Choose a file..." 
+                        accept=".jpeg, .jpg, .png, .gif, .mp3, .mp4"
+                        required>
+                    </b-form-file>
+                </b-form-group>
+                <b-form-group
+                    :invalid-feedback="invalidFeedbackFileName"
+                    :state="!$v.fileName.$error"
+                    label="Your Name:"
+                    label-for="fileName">
+                    <b-form-input
+                        :state="!$v.fileName.$error ? null : false"
+                        id="fileName"
+                        type="text"
+                        v-model="$v.fileName.$model"
+                        placeholder="Enter file name"
+                        required>
+                    </b-form-input>
+                </b-form-group>
+                <b-row align-h="end">
+                    <b-button type="reset" variant="danger">Reset</b-button>
+                    <b-button type="submit" variant="primary" class="ml-1 mr-3" :disabled="$v.$invalid">Submit</b-button>
+                </b-row>
+            </b-form>
+        </div>
     </b-container>
 </template>
 

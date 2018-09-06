@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <b-row>
+        <b-row class="pb-2">
             <b-col md="6" class="space space-pl">
                 <b-form-group horizontal label="Filter" class="mb-0">
                     <b-input-group>

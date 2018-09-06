@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <b-row class="clubs__container">
+        <b-row class="clubs__container custom_view_container">
             <ClubsTable :Clubs="loadedClubs()"/>
         </b-row>
     </b-container>

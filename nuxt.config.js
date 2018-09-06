@@ -31,11 +31,9 @@ module.exports = {
 	plugins: [
 		'@/plugins/AxiosMiddle.js',
 		'@/plugins/Api.js',
-		'@/plugins/Fontawesom.js',
-		'@/plugins/Vuelidate.js',
-		'@/plugins/VueNotification.js',
 		'@/plugins/Filters.js',
-		'@/plugins/Utils.js'
+		'@/plugins/Utils.js',
+		'@/plugins/VueImports.js'
 	],
 
 	/*

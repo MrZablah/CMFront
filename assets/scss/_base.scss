@@ -1,0 +1,46 @@
+@import "~vue-snotify/styles/material";
+
+html{
+	font-size: 16px;
+}
+
+html,
+body {
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+	background: $gradient-secondary;
+}
+
+body{
+	font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+	'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	border-radius: 8px;
+
+	&-corner,
+	&-track {
+		background: $color-light;
+		background: $gradient-light;
+	}
+
+	&-thumb {
+		border-radius: 8px;
+		background: $color-primary;
+		background: $gradient-primary;
+	}
+
+	&-button {
+		display: none;
+	}
+}

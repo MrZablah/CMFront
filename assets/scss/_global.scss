@@ -1,13 +1,16 @@
-@import "~vue-snotify/styles/material";
 
-html,body{
-	font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-	'Helvetica Neue', Arial, sans-serif;
-	font-size: 16px;
+.jumbotron__custom{
+    background: $color-secondary;
+    color: $color-light;
+    height: calc(100vh - 56px);
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-radius: unset;
 }
-*,
-*:before,
-*:after {
-	box-sizing: border-box;
-	margin: 0;
+
+.custom_view_container{
+	border-radius: 3px;
+    background: $gradient-light;
+    padding: 15px 5px;
+    box-shadow: 4px 4px 19px 2px $color-primary;
 }
