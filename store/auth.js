@@ -39,16 +39,16 @@ export const MUTATIONS = {
 
 export const ACTIONS = {
 	[types.LOGIN]({ commit }, code) {
-		this.$Api.auth.get(code).then((res) => {
-			cookie.create('token', res, {sameSite: 3});
-			commit('setToken', res);
-			commit('login');
-			commit('isAdmin');
-		});
+		cookie.create('token', code, {sameSite: 3});
+		commit('setToken', code);
+		commit('login');
+		commit('isAdmin');
+		//this.$Api.auth.get(code).then((res) => {
+		//});
 	},
 	[types.LOGOUT]({ commit }) {
 		const token = cookie.read('token');
-		this.$Api.auth.logout(token);
+		//this.$Api.auth.logout(token);
 		cookie.delete('token');
 		commit('noToken');
 		commit('logout');

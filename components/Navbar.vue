@@ -62,11 +62,12 @@ export default {
             return this.$router.push('/');
         },
 		login(){
-			this.$Api.auth.login();
+			// this.$Api.auth.login();
+            this.$store.dispatch('LOGIN', 'testcode');
 		}
     },
 	created(){
-		this.$store.dispatch('AUTO_LOGIN');
+		//this.$store.dispatch('AUTO_LOGIN');
 	}
 }
 </script>
